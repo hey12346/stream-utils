@@ -2,29 +2,45 @@ const successModeLabels = ['Success', 'Failure'];
 
 class Dropzone extends React.Component {
   render() {
-    return <form action="/upload" className="dropzone" id="my-awesome-dropzone"></form>;
+    return <form action={this.props.action} className="dropzone" id="my-awesome-dropzone"></form>;
   }
 }
 
 class Instr extends React.Component {
   render() {
-    return (<p>
-      Below is the <font color="red">Dropzone</font>.
-      To upload PDF files, please either click the dropzone or drag and drop pdfs onto the dropzone.
-      When finished, click Download to get the final concatanated PDF.
-    </p>);
+    return (
+    	<div>
+		    <p>
+		      Below is the <font color="red">Dropzone</font>.
+		      To upload PDF files, please either click the dropzone or drag and drop pdfs onto the dropzone.
+		    </p>
+		    <p>
+		      {this.props.message}
+		   </p>
+		</div>
+    );
   }
 }
 
 class DropzoneApp extends React.Component {
   render() {
-    return (
-    	<div>
-          <Instr/>
-          <Dropzone/>
-          <Download link="http://localhost:4567/test" />
-        </div>
-    );
+  	if(this.props.type === "pdf") {
+  		return (
+	    	<div>
+	          <Instr message="When finished, click Download to get the final concatanated PDF."/>
+	          <Dropzone action="/pdf-upload"/>
+	          <Download link="/pdf" />
+	        </div>
+    	);
+  	} else {
+  		return (
+	    	<div>
+	          <Instr message="When finished, click Download to get the final compiled ZIP file."/>
+	          <Dropzone action="/zip-upload"/>
+	          <Download link="/zip" />
+	        </div>
+    	);
+  	}
   }
 }
 
@@ -91,5 +107,6 @@ function createAutoClosingAlert(message) {
   $('#alerts').append(alert);
 }
 
-ReactDOM.render(<DropzoneApp />, document.getElementById('dropzone'));
+ReactDOM.render(<DropzoneApp type="pdf" />, document.getElementById('pdfdropzone'));
+ReactDOM.render(<DropzoneApp type="zip" />, document.getElementById('zipdropzone'));
 ReactDOM.render(<Navigation />, document.getElementById('navigation'));

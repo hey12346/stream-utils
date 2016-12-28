@@ -58,6 +58,7 @@ class ZipUtil {
     
             out.finish();
             out.close();
+            bytes.close();
         } catch (IOException ex) {
             throw new StreamUtilException(ex.getMessage());
         }
@@ -91,6 +92,10 @@ class ZipUtil {
             }
             
             createZipFile(output, files);
+            
+            for(File file: files) {
+                file.close();
+            }
         } catch (IOException ex) {
             throw new StreamUtilException(ex.getMessage());
         }

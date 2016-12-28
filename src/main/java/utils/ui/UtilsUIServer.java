@@ -32,7 +32,9 @@ import utils.test.StreamUtils;
 import de.neuland.jade4j.Jade4J;
 
 public class UtilsUIServer {
-    private final static Cache<String, InputStream> CACHE = CacheBuilder
+    private final static Cache<String, InputStream> PDFCACHE = CacheBuilder
+            .newBuilder().build();
+    private final static Cache<String, InputStream> ZIPCACHE = CacheBuilder
             .newBuilder().build();
     
     public static void main(String [] args) {
@@ -56,24 +58,24 @@ public class UtilsUIServer {
             exception.printStackTrace();
         });
         
-        post("/upload",
+        post("/pdf-upload",
                 (req, res) -> {
                     MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp");
                     req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
 
                     final Part uploadedFile = req.raw().getPart("file");
-                    CACHE.put(uploadedFile.getSubmittedFileName(), uploadedFile.getInputStream());
+                    PDFCACHE.put(uploadedFile.getSubmittedFileName(), uploadedFile.getInputStream());
                     
                     System.out.println(uploadedFile.getSubmittedFileName());
                     
                     return "uploaded successfully";
                 });
         
-        get("/test",
+        get("/pdf",
                 (req, res) -> {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     
-                    StreamUtils.getInstance().mergePDF(new ArrayList<InputStream>(CACHE.asMap().values()), stream);
+                    StreamUtils.getInstance().mergePDF(new ArrayList<InputStream>(PDFCACHE.asMap().values()), stream);
                     
                     res.type("application/pdf");
                     res.header("Content-Disposition", "attachment; filename=concat.pdf");
@@ -83,6 +85,45 @@ public class UtilsUIServer {
                     raw.getOutputStream().write(stream.toByteArray());
                     raw.getOutputStream().flush();
                     raw.getOutputStream().close();
+                    
+                    stream.close();
+                    
+                    return res.raw();
+
+                });
+        Spark.exception(Exception.class, (exception, request, response) -> {
+            exception.printStackTrace();
+        });
+        
+        post("/zip-upload",
+                (req, res) -> {
+                    MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp");
+                    req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+
+                    final Part uploadedFile = req.raw().getPart("file");
+                    ZIPCACHE.put(uploadedFile.getSubmittedFileName(), uploadedFile.getInputStream());
+                    
+                    System.out.println(uploadedFile.getSubmittedFileName());
+                    
+                    return "uploaded successfully";
+                });
+        
+        get("/zip",
+                (req, res) -> {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    
+                    StreamUtils.getInstance().makeZipFile(ZIPCACHE.asMap(), stream);
+                    
+                    res.type("application/zip");
+                    res.header("Content-Disposition", "attachment; filename=allFiles.zip");
+                    
+                    HttpServletResponse raw = res.raw();
+
+                    raw.getOutputStream().write(stream.toByteArray());
+                    raw.getOutputStream().flush();
+                    raw.getOutputStream().close();
+                    
+                    stream.close();
                     
                     return res.raw();
 
