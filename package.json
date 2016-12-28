@@ -1,5 +1,5 @@
 {
-  "name": "rpe-stub",
+  "name": "utils",
   "version": "1.0.0",
   "description": "Creates a mock RPE service that returns both success and failure messages from providers to help test RPE",
   "main": "gulpfile.js",
