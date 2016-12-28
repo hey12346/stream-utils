@@ -44,6 +44,5 @@ class PDFUtil {
         
         outputStream.flush();
         document.close();
-        outputStream.close();
     }
 }

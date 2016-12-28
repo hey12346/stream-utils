@@ -1,0 +1,30 @@
+{
+  "name": "rpe-stub",
+  "version": "1.0.0",
+  "description": "Creates a mock RPE service that returns both success and failure messages from providers to help test RPE",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build-assets": "gulp"
+  },
+  "author": "Kevin Gao",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "dropzone": "^4.3.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-uglifycss": "^1.0.6",
+    "react-dropzone-component": "^1.4.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.5",
+    "jquery": "^3.1.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "tether": "^1.4.0"
+  }
+}

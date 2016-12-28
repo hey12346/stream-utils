@@ -43,7 +43,6 @@ class ZipUtil {
             }
 
             zipOut.closeEntry();
-            file.close();
         } catch(IOException ex) {
             throw new StreamUtilException(ex.getMessage());
         }
