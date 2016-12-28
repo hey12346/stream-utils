@@ -14,6 +14,8 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
 
+import com.lowagie.text.DocumentException;
+
 public class StreamUtils {
     private static StreamUtils myUtil;
     
@@ -42,5 +44,9 @@ public class StreamUtils {
     public void makeZipFile(Map <String, InputStream> files, OutputStream stream) throws StreamUtilException{
         ZipUtil myZipUtil = ZipUtil.getInstance();
         myZipUtil.makeZipFile(files, stream);
+    }
+    
+    public void mergePDF(List<InputStream> list, OutputStream outputStream) throws DocumentException, IOException {
+        PDFUtil.getInstance().doMerge(list, outputStream);
     }
 }

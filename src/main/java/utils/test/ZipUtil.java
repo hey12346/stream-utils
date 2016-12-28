@@ -12,7 +12,13 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class ZipUtil {
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfSmartCopy;
+
+class ZipUtil {
     private static ZipUtil myZipUtil;
     
     private ZipUtil() {
@@ -102,5 +108,4 @@ public class ZipUtil {
             throw new StreamUtilException(ex.getMessage());
         }
     }
-    
 }
