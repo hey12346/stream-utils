@@ -17,4 +17,3 @@ into the classpath and away you go.
 
 Furthermore, if you want a slick UI to do your manual PDF concatanation or Zipfile Compilation, just java -jar utils.test.uberjar-{$version}.jar, and jump to http://localhost:4567/
 select which mode you want using the blue buttons, drop your files into the dropzone, and hit download.
-into the classpath and away you go.
