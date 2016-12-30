@@ -4,6 +4,7 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,6 +77,8 @@ public class UtilsUIServer {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     
                     StreamUtils.getInstance().mergePDF(new ArrayList<InputStream>(PDFCACHE.asMap().values()), stream);
+                    
+                    ByteArrayInputStream pdf = new ByteArrayInputStream(stream.toByteArray());
                     
                     res.type("application/pdf");
                     res.header("Content-Disposition", "attachment; filename=concat.pdf");
