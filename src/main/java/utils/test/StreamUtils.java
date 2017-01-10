@@ -1,10 +1,6 @@
 package utils.test;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +44,12 @@ public class StreamUtils {
     
     public void mergePDF(List<InputStream> list, OutputStream outputStream) throws DocumentException, IOException {
         PDFUtil.getInstance().doMerge(list, outputStream);
+    }
+
+    public OutputStream writeObjsAsXls(List <?> myObjs) throws IOException {
+        ByteArrayOutputStream myStream = new ByteArrayOutputStream();
+        ExcelUtil <?> myUtils = new ExcelUtil<>(myObjs);
+        myUtils.getExcelFile(myStream);
+        return myStream;
     }
 }
