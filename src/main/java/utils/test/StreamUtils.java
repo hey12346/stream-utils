@@ -27,23 +27,61 @@ public class StreamUtils {
         return myUtil;
     }
     
+    /**
+     * Copy an inputstream to an output stream
+     * @param test
+     * @param stream
+     * @return
+     * @throws IOException
+     */
     public OutputStream copy(InputStream test, OutputStream stream) throws IOException {
         IOUtils.copy(test, stream);
         return stream;
     }
     
+    /**
+     * Zips up all files inside input path and outputs the zip file into the output path.
+     * @param input
+     * @param output
+     * @throws StreamUtilException
+     */
     public void makeZipFile(Path input, Path output) throws StreamUtilException{
         ZipUtil myZipUtil = ZipUtil.getInstance();
         myZipUtil.makeZipFile(input, output);
     }
     
+    /**
+     * Takes in a map of files, zips them up and writes to the output stream.
+     * @param files
+     * @param stream
+     * @throws StreamUtilException
+     */
     public void makeZipFile(Map <String, InputStream> files, OutputStream stream) throws StreamUtilException{
         ZipUtil myZipUtil = ZipUtil.getInstance();
         myZipUtil.makeZipFile(files, stream);
     }
     
+    /**
+     * Concats all the PDFs in the list and writes the resultant pdf into the outputstream
+     * @param list
+     * @param outputStream
+     * @throws DocumentException
+     * @throws IOException
+     */
     public void mergePDF(List<InputStream> list, OutputStream outputStream) throws DocumentException, IOException {
-        PDFUtil.getInstance().doMerge(list, outputStream);
+        PDFUtil.getInstance().concatPDFs(list, outputStream);
+    }
+    
+    /**
+     * stamps the pdf with the message as the watermark and returns the new pdf as a bytearrayoutputstream.
+     * @param pdf
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws DocumentException
+     */
+    public ByteArrayOutputStream watermark(InputStream pdf, String message) throws IOException, DocumentException {
+    	return PDFUtil.getInstance().stampPdfWithWatermark(pdf, message);
     }
 
     public OutputStream writeObjsAsXls(List <?> myObjs) throws IOException {
