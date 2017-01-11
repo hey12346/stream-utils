@@ -15,12 +15,12 @@ import org.eclipse.jetty.util.ByteArrayOutputStream2;
  * Created by kevin.gao on 1/10/2017.
  */
 public class ExcelUtil <T extends Object> {
-    List<Map<String, String>> rows = new ArrayList<>();
+    List<Map<String, Object>> rows = new ArrayList<>();
 
     public ExcelUtil(List <T> rowsOfData) {
         for(T myObj: rowsOfData) {
             ObjectMapper oMapper = new ObjectMapper();
-            Map<String, String> data = oMapper.convertValue(myObj, Map.class);
+            Map<String, Object> data = oMapper.convertValue(myObj, Map.class);
 
             rows.add(data);
         }
@@ -30,22 +30,28 @@ public class ExcelUtil <T extends Object> {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Sample sheet");
 
-        int counter = 0;
+        int colCounter = 0;
+        int rowCounter = 0;
         for(String key: rows.get(0).keySet()) {
-            Row row = sheet.createRow(counter);
-            Cell cell = row.createCell(counter);
+            Row row = sheet.createRow(rowCounter);
+            Cell cell = row.createCell(colCounter);
             cell.setCellValue(key);
-            counter++;
+            System.out.println(key);
+            colCounter++;
         }
-
-        for(Map <String, String> obj: rows) {
-            counter = 0;
-            Row row = sheet.createRow(counter);
+        rowCounter++;
+        
+        for(Map <String, Object> obj: rows) {
+            colCounter = 0;
+            Row row = sheet.createRow(rowCounter);
             for(String key: obj.keySet()) {
-                Cell cell = row.createCell(counter);
-                cell.setCellValue(obj.get(key));
-                counter++;
+                Cell cell = row.createCell(colCounter);
+                cell.setCellValue(obj.get(key).toString());
+                System.out.println(obj.get(key).toString());
+                colCounter++;
             }
+            
+            rowCounter++;
         }
 
         workbook.write(myStream);
