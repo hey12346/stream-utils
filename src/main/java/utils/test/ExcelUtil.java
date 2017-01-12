@@ -14,13 +14,13 @@ import org.eclipse.jetty.util.ByteArrayOutputStream2;
 /**
  * Created by kevin.gao on 1/10/2017.
  */
-public class ExcelUtil <T extends Object> {
-    List<Map<String, Object>> rows = new ArrayList<>();
+public class ExcelUtil <T extends ExcelObject> {
+    private List<Map<String, Object>> rows = new ArrayList<>();
 
     public ExcelUtil(List <T> rowsOfData) {
         for(T myObj: rowsOfData) {
             ObjectMapper oMapper = new ObjectMapper();
-            Map<String, Object> data = oMapper.convertValue(myObj, Map.class);
+            Map<String, Object> data = myObj.getData();
 
             rows.add(data);
         }
@@ -32,11 +32,10 @@ public class ExcelUtil <T extends Object> {
 
         int colCounter = 0;
         int rowCounter = 0;
+        Row headerRow = sheet.createRow(rowCounter);
         for(String key: rows.get(0).keySet()) {
-            Row row = sheet.createRow(rowCounter);
-            Cell cell = row.createCell(colCounter);
+            Cell cell = headerRow.createCell(colCounter);
             cell.setCellValue(key);
-            System.out.println(key);
             colCounter++;
         }
         rowCounter++;
@@ -47,7 +46,6 @@ public class ExcelUtil <T extends Object> {
             for(String key: obj.keySet()) {
                 Cell cell = row.createCell(colCounter);
                 cell.setCellValue(obj.get(key).toString());
-                System.out.println(obj.get(key).toString());
                 colCounter++;
             }
             

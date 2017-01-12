@@ -84,7 +84,7 @@ public class StreamUtils {
     	return PDFUtil.getInstance().stampPdfWithWatermark(pdf, message);
     }
 
-    public OutputStream writeObjsAsXls(List <?> myObjs) throws IOException {
+    public OutputStream writeObjsAsXls(List <? extends ExcelObject> myObjs) throws IOException {
         ByteArrayOutputStream myStream = new ByteArrayOutputStream();
         ExcelUtil <?> myUtils = new ExcelUtil<>(myObjs);
         myUtils.getExcelFile(myStream);
